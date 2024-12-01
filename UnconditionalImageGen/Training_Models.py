@@ -12,7 +12,7 @@ Datasets = {
     # DatasetRef("PixelArtNouns_2000", "jiovine/pixel-art-nouns-2k", 500),
     # DatasetRef("FashionImage_3506", "GHonem/fashion_image_caption-3500", 500),
     # DatasetRef("Animals_5400", "mertcobanov/animals", 500),
-    DatasetRef("Landscapes", "mdroth/landscapes", 500)
+    # DatasetRef("Landscapes", "mdroth/landscapes", 500)
 }
 
 Models = {

@@ -4,6 +4,8 @@ sys.path.append("./src/")
 from pathlib import Path
 import torch
 import torch.nn.functional as F
+import safetensors
+from safetensors.torch import load_file
 
 from src.Model import *
 from src.References import *
@@ -81,3 +83,8 @@ def train(
     pipeline = resolve_pipeline(scheduler_classname, model, noise_scheduler)
     pipeline.save_pretrained(output_path)
     print(str(f'{output_path} saved'))
+
+    del model
+
+    if device == "cuda":
+        torch.cuda.empty_cache()
