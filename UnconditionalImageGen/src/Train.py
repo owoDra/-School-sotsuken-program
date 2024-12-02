@@ -6,6 +6,8 @@ import torch
 import torch.nn.functional as F
 import safetensors
 from safetensors.torch import load_file
+import matplotlib.pyplot as plt
+import pandas as pd
 
 from src.Model import *
 from src.References import *
@@ -50,6 +52,8 @@ def train(
 
     weight_dtype = torch.float16
 
+    losses = []
+
     for epoch in range(0, num_epochs):
         model.train()
 
@@ -79,12 +83,21 @@ def train(
 
             print(str(f'epoch: {epoch} | Loss'), loss.item())
 
+            losses.append(loss.item())
+
     # pipeline に変換して保存
     pipeline = resolve_pipeline(scheduler_classname, model, noise_scheduler)
     pipeline.save_pretrained(output_path)
     print(str(f'{output_path} saved'))
 
-    del model
+    # グラフを出力
+    plt.plot(losses)
+    plt.savefig(str(output_path) + str(r'/losses.png'), format="png", dpi=300)
 
+    # csvを出力
+    pd.DataFrame(losses).to_csv(str(output_path) + str(r'/losses.csv'))
+
+    # クリーンアップ
+    del model
     if device == "cuda":
         torch.cuda.empty_cache()
