@@ -93,6 +93,7 @@ def train(
     # グラフを出力
     plt.plot(losses)
     plt.savefig(str(output_path) + str(r'/losses.png'), format="png", dpi=300)
+    plt.gca().clear()
 
     # csvを出力
     pd.DataFrame(losses).to_csv(str(output_path) + str(r'/losses.csv'))
